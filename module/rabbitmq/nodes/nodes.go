@@ -1,7 +1,6 @@
 package nodes
 
 import (
-
 	"fmt"
 	"github.com/bernielomax/rabbitmqbeat/module/rabbitmq"
 	"github.com/elastic/beats/libbeat/common"

@@ -6,8 +6,8 @@ import (
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/metricbeat/mb"
 	"github.com/pkg/errors"
-	"time"
 	"strings"
+	"time"
 )
 
 const (
