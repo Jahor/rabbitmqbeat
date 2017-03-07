@@ -7,6 +7,7 @@ import (
 	"github.com/elastic/beats/metricbeat/mb"
 	"github.com/pkg/errors"
 	"time"
+	"strings"
 )
 
 const (
@@ -69,6 +70,16 @@ func (m *MetricSet) Fetch() ([]common.MapStr, error) {
 		queue["@timestamp"] = common.Time(time.Now())
 		queue["type"] = beatType
 		queue["backing_queue_status"] = nil
+		idleSinceString, ok := queue["idle_since"]
+		if ok {
+			idleSince, err := time.Parse("2006-01-02 15:04:05", idleSinceString.(string))
+			if err != nil {
+				queue["idle_since"] = strings.Replace(idleSinceString.(string), " ", "T", 1)
+			} else {
+				queue["idle_since"] = common.Time(idleSince)
+			}
+		}
+
 	}
 	return queues, nil
 }
