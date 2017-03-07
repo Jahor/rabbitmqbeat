@@ -7,10 +7,6 @@
       type: text
       description: >
         The version of the RabbitMQ management plugin.
-    - name: management_version
-      type: keyword
-      description: >
-        The management version.
     - name: rates_mode
       type: keyword
       description: >
@@ -57,7 +53,7 @@
           type: long
           description: >
            Deliver get messages.
-        - name: publish_details
+        - name: deliver_get_details
           type: group
           description: >
             Deliver get details.

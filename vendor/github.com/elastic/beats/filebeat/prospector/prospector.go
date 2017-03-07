@@ -21,6 +21,8 @@ var (
 )
 
 type Prospector struct {
+	// harvesterCount MUST be first field in struct. See https://github.com/golang/go/issues/599
+	harvesterCounter uint64         // Must be 8-byte aligned. Ensured if first field in struct
 	cfg              *common.Config // Raw config
 	config           prospectorConfig
 	prospectorer     Prospectorer
@@ -30,11 +32,10 @@ type Prospector struct {
 	states           *file.States
 	wg               sync.WaitGroup
 	channelWg        sync.WaitGroup // Separate waitgroup for channels as not stopped on completion
-	harvesterCounter uint64
 }
 
 type Prospectorer interface {
-	Init()
+	Init(states file.States) error
 	Run()
 }
 
@@ -49,8 +50,8 @@ func NewProspector(cfg *common.Config, states file.States, outlet Outlet) (*Pros
 		outlet:        outlet,
 		harvesterChan: make(chan *input.Event),
 		done:          make(chan struct{}),
-		states:        states.Copy(),
 		wg:            sync.WaitGroup{},
+		states:        &file.States{},
 		channelWg:     sync.WaitGroup{},
 	}
 
@@ -61,7 +62,7 @@ func NewProspector(cfg *common.Config, states file.States, outlet Outlet) (*Pros
 		return nil, err
 	}
 
-	err := prospector.Init()
+	err := prospector.Init(states)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +73,7 @@ func NewProspector(cfg *common.Config, states file.States, outlet Outlet) (*Pros
 }
 
 // Init sets up default config for prospector
-func (p *Prospector) Init() error {
+func (p *Prospector) Init(states file.States) error {
 
 	var prospectorer Prospectorer
 	var err error
@@ -90,7 +91,10 @@ func (p *Prospector) Init() error {
 		return err
 	}
 
-	prospectorer.Init()
+	err = prospectorer.Init(states)
+	if err != nil {
+		return err
+	}
 	p.prospectorer = prospectorer
 
 	// Create empty harvester to check if configs are fine
@@ -155,12 +159,17 @@ func (p *Prospector) Run(once bool) {
 	}
 }
 
+// IsEnabled returns true if the prospector is eanbled
+func (p *Prospector) IsEnabled() bool {
+	return p.config.Enabled
+}
+
 // updateState updates the prospector state and forwards the event to the spooler
 // All state updates done by the prospector itself are synchronous to make sure not states are overwritten
 func (p *Prospector) updateState(event *input.Event) error {
 
-	// Add ttl if cleanOlder is enabled
-	if p.config.CleanInactive > 0 {
+	// Add ttl if cleanOlder is enabled and TTL is not already 0
+	if p.config.CleanInactive > 0 && event.State.TTL != 0 {
 		event.State.TTL = p.config.CleanInactive
 	}
 
@@ -218,7 +227,7 @@ func (p *Prospector) startHarvester(state file.State, offset int64) error {
 		return fmt.Errorf("Error setting up harvester: %s", err)
 	}
 
-	// State is directly updated and not through channel to make state update immidiate
+	// State is directly updated and not through channel to make state update immediate
 	// State is only updated after setup is completed successfully
 	err = p.updateState(input.NewEvent(state))
 	if err != nil {

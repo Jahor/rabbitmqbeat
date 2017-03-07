@@ -1,0 +1,10 @@
+////
+This file is generated! See scripts/docs_collector.py
+////
+
+  * <<metricbeat-module-rabbitmq,RabbitMQ>>
+
+
+--
+
+include::modules/rabbitmq.asciidoc[]

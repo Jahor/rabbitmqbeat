@@ -17,7 +17,7 @@ in <<configuration-metricbeat>>. Here is an example configuration:
 
 [source,yaml]
 ----
-metricbeat.modules:
+rabbitmqbeat.modules:
 - module: rabbitmq
   metricsets: ["nodes", "queues","overview"]
   enabled: true

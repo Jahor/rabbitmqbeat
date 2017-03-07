@@ -1,5 +1,5 @@
 BEATNAME=rabbitmqbeat
-BEAT_DIR=github.com/bernielomax
+BEAT_DIR=github.com/bernielomax/rabbitmqbeat
 SYSTEM_TESTS=false
 TEST_ENVIRONMENT=false
 ES_BEATS?=./vendor/github.com/elastic/beats

@@ -3,68 +3,116 @@ package docker
 import (
 	"sync"
 
-	"github.com/fsouza/go-dockerclient"
-
 	"github.com/elastic/beats/libbeat/logp"
+	"github.com/elastic/beats/metricbeat/mb"
+	"github.com/elastic/beats/metricbeat/mb/parse"
+
+	"time"
+
+	"github.com/fsouza/go-dockerclient"
 )
 
-type DockerStat struct {
+var HostParser = parse.URLHostParserBuilder{DefaultScheme: "tcp"}.Build()
+
+func init() {
+	// Register the ModuleFactory function for the "docker" module.
+	if err := mb.Registry.AddModule("docker", NewModule); err != nil {
+		panic(err)
+	}
+}
+
+func NewModule(base mb.BaseModule) (mb.Module, error) {
+	// Validate that at least one host has been specified.
+	config := struct {
+		Hosts []string `config:"hosts"    validate:"nonzero,required"`
+	}{}
+	if err := base.UnpackConfig(&config); err != nil {
+		return nil, err
+	}
+
+	return &base, nil
+}
+
+type Stat struct {
 	Container docker.APIContainers
 	Stats     docker.Stats
 }
 
-var socket string
-var client *docker.Client
-
-func CreateDockerCLient(config *Config) *docker.Client {
-	socket = config.Socket
+func NewDockerClient(endpoint string, config Config) (*docker.Client, error) {
 	var err error
-	if client == nil {
-		if config.Tls.Enabled == true {
-			client, err = docker.NewTLSClient(
-				config.Socket,
-				config.Tls.CertPath,
-				config.Tls.KeyPath,
-				config.Tls.CaPath,
-			)
-		} else {
-			client, err = docker.NewClient(config.Socket)
-		}
-		if err == nil {
-			logp.Info("DockerCLient is created")
-			return client
-		} else {
-			logp.Info("DockerCLient is not created")
-		}
+	var client *docker.Client
+
+	if !config.TLS.IsEnabled() {
+		client, err = docker.NewClient(endpoint)
 	} else {
-		logp.Info("DockerCLient already exists")
-		return client
+		client, err = docker.NewTLSClient(
+			endpoint,
+			config.TLS.Certificate,
+			config.TLS.Key,
+			config.TLS.CA,
+		)
 	}
-	return nil
+	if err != nil {
+		return nil, err
+	}
+
+	return client, nil
 }
-func FetchDockerStats(client *docker.Client) ([]DockerStat, error) {
+
+// FetchStats returns a list of running containers with all related stats inside
+func FetchStats(client *docker.Client, timeout time.Duration) ([]Stat, error) {
 	containers, err := client.ListContainers(docker.ListContainersOptions{})
-	containersList := []DockerStat{}
-	if err == nil {
-		for _, container := range containers {
-			containersList = append(containersList, exportContainerStats(client, &container))
-		}
-	} else {
-		logp.Err("Can not get container list: %v", err)
+	if err != nil {
+		return nil, err
 	}
+
+	var wg sync.WaitGroup
+
+	containersList := make([]Stat, 0, len(containers))
+	statsQueue := make(chan Stat, 1)
+	wg.Add(len(containers))
+
+	for _, container := range containers {
+		go func(container docker.APIContainers) {
+			defer wg.Done()
+			statsQueue <- exportContainerStats(client, &container, timeout)
+		}(container)
+	}
+
+	go func() {
+		wg.Wait()
+		close(statsQueue)
+	}()
+
+	// This will break after the queue has been drained and queue is closed.
+	for stat := range statsQueue {
+		// If names is empty, there is not data inside
+		if len(stat.Container.Names) != 0 {
+			containersList = append(containersList, stat)
+		}
+	}
+
 	return containersList, err
 }
-func exportContainerStats(client *docker.Client, container *docker.APIContainers) DockerStat {
+
+// exportContainerStats loads stats for the given container
+//
+// This is currently very inefficient as docker calculates the average for each request,
+// means each request will take at least 2s: https://github.com/docker/docker/blob/master/cli/command/container/stats_helpers.go#L148
+// Getting all stats at once is implemented here: https://github.com/docker/docker/pull/25361
+func exportContainerStats(client *docker.Client, container *docker.APIContainers, timeout time.Duration) Stat {
 	var wg sync.WaitGroup
+	var event Stat
+
 	statsC := make(chan *docker.Stats)
 	errC := make(chan error, 1)
-	var event DockerStat
 	statsOptions := docker.StatsOptions{
 		ID:      container.ID,
 		Stats:   statsC,
 		Stream:  false,
-		Timeout: -1,
+		Timeout: timeout,
 	}
+
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
@@ -86,7 +134,4 @@ func exportContainerStats(client *docker.Client, container *docker.APIContainers
 	}()
 	wg.Wait()
 	return event
-}
-func GetSocket() string {
-	return socket
 }

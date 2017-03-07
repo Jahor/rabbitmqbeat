@@ -183,14 +183,48 @@ output.elasticsearch:
 
 ===== pipeline
 
-format string value configuring the ingest node pipeline to write events to.
+A format string value that specifies the ingest node pipeline to write events to.
+
+["source","yaml"]
+------------------------------------------------------------------------------
+output.elasticsearch:
+  hosts: ["http://localhost:9200"]
+  pipeline: my_pipeline_id
+------------------------------------------------------------------------------
+
+For more information, see <<configuring-ingest-node>>.
 
 ===== pipelines
 
-Array of pipeline selector configurations supporting conditionals, format string
-based field access and name mappings. The first rule matching will be used to
-set the `pipeline` for the event to be published. If `pipelines` is missing or no
-rule matches, the `pipeline` field will be used.
+Similar to the `indices` array, this is an array of pipeline selector
+configurations supporting conditionals, format string based field access
+and name mappings. The first rule matching will be used to set the
+`pipeline` for the event to be published. If `pipelines` is missing or
+no rule matches, the `pipeline` field will be used.
+
+Example elasticsearch output with `pipelines`:
+
+["source","yaml"]
+------------------------------------------------------------------------------
+filebeat.prospectors:
+- paths: ["/var/log/app/normal/*.log"]
+  fields:
+    type: "normal"
+- paths: ["/var/log/app/critical/*.log"]
+  fields:
+    type: "critical"
+
+output.elasticsearch:
+  hosts: ["http://localhost:9200"]
+  index: "filebeat-%{+yyyy.MM.dd}"
+  pipelines:
+    - pipeline: critical_pipeline
+      when.equals:
+        type: "critical"
+    - pipeline: normal_pipeline
+      when.equals:
+        type: "normal"
+------------------------------------------------------------------------------
 
 ===== template
 
@@ -329,31 +363,9 @@ Every event sent to Logstash contains additional metadata for indexing and filte
 In Logstash, you can configure the Elasticsearch output plugin to use the
 metadata and event type for indexing.
 
-The following *Logstash 1.5* configuration file sets Logstash to use the index and
-document type reported by Beats for indexing events into Elasticsearch.
+The following Logstash configuration file for the versions 2.x and 5.x sets Logstash to
+use the index and document type reported by Beats for indexing events into Elasticsearch.
 The index used will depend on the `@timestamp` field as identified by Logstash.
-
-[source,logstash]
-------------------------------------------------------------------------------
-
-input {
-  beats {
-    port => 5044
-  }
-}
-
-output {
-  elasticsearch {
-    host => "localhost"
-    port => "9200"
-    protocol => "http"
-    index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
-    document_type => "%{[@metadata][type]}"
-  }
-}
-------------------------------------------------------------------------------
-
-Here is the same configuration for *Logstash 2.x* releases:
 
 [source,logstash]
 ------------------------------------------------------------------------------
@@ -449,6 +461,8 @@ configured. The default value is 0.
 [[port]]
 ===== port
 
+deprecated[5.0.0]
+
 The default port to use if the port number is not given in <<hosts>>. The default port number
 is 10200.
 
@@ -529,6 +543,26 @@ spooler size.
 
 The Kafka output sends the events to Apache Kafka.
 
+Example configuration:
+
+[source,yaml]
+------------------------------------------------------------------------------
+output.kafka:
+  # initial brokers for reading cluster metadata
+  hosts: ["kafka1:9092", "kafka2:9092", "kafka3:9092"]
+
+  # message topic selection + partitioning
+  topic: '%{[type]}'
+  partition.round_robin:
+    reachable_only: false
+
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
+------------------------------------------------------------------------------
+
+NOTE: Events bigger than <<kafka-max_message_bytes,`max_message_bytes`>> will be dropped. To avoid this problem, make sure {beatname_uc} does not generate events bigger than <<kafka-max_message_bytes,`max_message_bytes`>>.
+
 ==== Compatibility
 
 This output works with Kafka 0.8, 0.9, and 0.10.
@@ -561,7 +595,8 @@ Valid values are `0.8.2.0`, `0.8.2.1`, `0.8.2.2`, `0.8.2`, `0.8`, `0.9.0.0`,
 
 ===== username
 
-The username for connecting to Kafka. If username is configured, the passowrd must be configured as well. Only SASL/PLAIN is supported.
+The username for connecting to Kafka. If username is configured, the password
+must be configured as well. Only SASL/PLAIN is supported.
 
 ===== password
 
@@ -601,7 +636,7 @@ Kafka output broker event partitioning strategy. Must be one of `random`,
 
 *`random.group_events`*: Sets the number of events to be published to the same
  partition, before the partitioner selects a new partition by random. The
- default value is 1 meaning after each event a new parition is picked randomly.
+ default value is 1 meaning after each event a new partition is picked randomly.
 
 *`round_robin.group_events`*: Sets the number of events to be published to the
  same partition, before the partitioner selects the next partition. The default
@@ -633,7 +668,7 @@ The number of concurrent load-balanced Kafka output workers.
 Kafka metadata update settings. The metadata do contain information about
 brokers, topics, partition, and active leaders to use for publishing.
 
-*`refresh_frequency`*:: Metadata refreash interval. Defaults to 10 minutes.
+*`refresh_frequency`*:: Metadata refresh interval. Defaults to 10 minutes.
 
 *`retry.max`*:: Total number of metadata update retries when cluster is in middle of leader election. The default is 3.
 
@@ -675,6 +710,7 @@ The keep-alive period for an active network connection. If 0s, keep-alives are d
 
 Sets the output compression codec. Must be one of `none`, `snappy` and `gzip`. The default is `gzip`.
 
+[[kafka-max_message_bytes]]
 ===== max_message_bytes
 
 The maximum permitted size of JSON-encoded messages. Bigger messages will be dropped. The default value is 1000000 (bytes). This value should be equal to or less than the broker's `message.max.bytes`.
@@ -715,7 +751,7 @@ output.redis:
 
 ==== Compatibility
 
-This output works with Redis 3.2.0.
+This output works with Redis 3.2.4.
 
 ==== Redis Output Options
 
@@ -737,6 +773,8 @@ distributed to the reachable servers only. You can define each Redis server by s
 don't specify a port number, the value configured by `port` is used.
 
 ===== port
+
+deprecated[5.0.0]
 
 The Redis port to use if `hosts` does not contain a port number. The default is 6379.
 
@@ -1045,7 +1083,7 @@ The client certificate key used for client authentication. This option is requir
 
 The passphrase used to decrypt an encrypted key stored in the configured `key` file.
 
-===== versions
+===== supported_protocols
 
 List of allowed SSL/TLS versions. If SSL/TLS server decides for protocol versions
 not configured, the connection will be dropped during or after the handshake. The
