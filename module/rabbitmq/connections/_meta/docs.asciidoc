@@ -1,0 +1,3 @@
+=== rabbitmq connections MetricSet
+
+This is the connections metricset of the module rabbitmq.

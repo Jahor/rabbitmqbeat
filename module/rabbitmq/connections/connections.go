@@ -1,7 +1,6 @@
-package nodes
+package connections
 
 import (
-
 	"fmt"
 	"github.com/bernielomax/rabbitmqbeat/module/rabbitmq"
 	"github.com/elastic/beats/libbeat/common"
@@ -11,13 +10,13 @@ import (
 )
 
 const (
-	beatType = "rabbitmq.nodes"
+	beatType = "rabbitmq.connections"
 )
 
 // init registers the MetricSet with the central registry.
 // The New method will be called after the setup of the module and before starting to fetch data
 func init() {
-	if err := mb.Registry.AddMetricSet("rabbitmq", "nodes", New); err != nil {
+	if err := mb.Registry.AddMetricSet("rabbitmq", "connections", New); err != nil {
 		panic(err)
 	}
 }
@@ -45,8 +44,8 @@ func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 		Username: "",
 		Password: "",
 	}
-
-	if err := base.Module().UnpackConfig(&config); err != nil {
+	err := base.Module().UnpackConfig(&config)
+	if err != nil {
 		return nil, err
 	}
 
@@ -62,14 +61,14 @@ func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 // It returns the event which is then forward to the output. In case of an error, a
 // descriptive error must be returned.
 func (m *MetricSet) Fetch() ([]common.MapStr, error) {
-	nodes, err := m.api.Nodes()
+	connections, err := m.api.Connections()
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("%v api fetch failed.", beatType))
 	}
 	now := common.Time(time.Now())
-	for _, node := range nodes {
-		node["@timestamp"] = now
-		node["type"] = beatType
+	for _, connection := range connections {
+		connection["@timestamp"] = now
+		connection["type"] = beatType
 	}
-	return nodes, nil
+	return connections, nil
 }

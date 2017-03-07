@@ -23,6 +23,7 @@ type Api interface {
 	Nodes() ([]common.MapStr, error)
 	Overview() (common.MapStr, error)
 	Queues() ([]common.MapStr, error)
+	Connections() ([]common.MapStr, error)
 }
 
 func NewClient(url, username, password string) Api {
@@ -44,6 +45,11 @@ func (c *Client) Nodes() ([]common.MapStr, error) {
 
 func (c *Client) Queues() ([]common.MapStr, error) {
 	q, err := c.getMany("queues")
+	return q, err
+}
+
+func (c *Client) Connections() ([]common.MapStr, error) {
+	q, err := c.getMany("connections")
 	return q, err
 }
 

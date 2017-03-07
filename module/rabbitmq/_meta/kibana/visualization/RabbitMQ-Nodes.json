@@ -1,0 +1,10 @@
+{
+  "title": "RabbitMQ - Nodes",
+  "visState": "{\"title\":\"RabbitMQ - Nodes\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showMeticsAtAllLevels\":false,\"showPartialRows\":false,\"showTotal\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"totalFunc\":\"sum\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.nodes.fd_used\",\"customLabel\":\"File Descriptors\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"rabbitmq.nodes.name\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Node\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.nodes.sockets_used\",\"customLabel\":\"Socket descriptors\"}},{\"id\":\"4\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.nodes.proc_used\",\"customLabel\":\"Erlang processes\"}},{\"id\":\"5\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.nodes.mem_used\",\"customLabel\":\"Memory\"}},{\"id\":\"6\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.nodes.disk_free\",\"customLabel\":\"Disk\"}},{\"id\":\"7\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.nodes.uptime\",\"customLabel\":\"Uptime\"}}],\"listeners\":{}}",
+  "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "{\"index\":\"rabbitmqbeat-*\",\"query\":{\"query_string\":{\"query\":\"metricset.name:nodes\",\"analyze_wildcard\":true}},\"filter\":[]}"
+  }
+}

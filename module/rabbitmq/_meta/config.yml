@@ -1,5 +1,5 @@
 - module: rabbitmq
-  metricsets: ["nodes", "queues","overview"]
+  metricsets: ["nodes", "queues","overview", "connections" ]
   enabled: true
   period: 30s
   hosts: ["http://localhost:15672"]

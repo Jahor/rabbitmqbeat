@@ -66,8 +66,10 @@ func (m *MetricSet) Fetch() ([]common.MapStr, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("%v api fetch failed.", beatType))
 	}
+	now := common.Time(time.Now())
+
 	for _, queue := range queues {
-		queue["@timestamp"] = common.Time(time.Now())
+		queue["@timestamp"] = now
 		queue["type"] = beatType
 		queue["backing_queue_status"] = nil
 		idleSinceString, ok := queue["idle_since"]

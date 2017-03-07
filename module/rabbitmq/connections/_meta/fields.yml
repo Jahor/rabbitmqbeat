@@ -1,0 +1,190 @@
+- name: connections
+  type: group
+  description: >
+    Connection information
+  fields:
+    - name: auth_mechanism
+      type: keyword
+      description: >
+        Client authentication mechanism
+    - name: channel_max
+      type: long
+      description: >
+        Maximal number of channels
+    - name: channels
+      type: long
+      description: >
+        Current number of channels
+    - name: client_properties
+      type: group
+      description: >
+        Client properties
+      fields: {}
+
+    - name: connected_at
+      type: date
+      description: >
+
+    - name: frame_max
+      type: long
+      description: >
+
+    - name: garbage_collection
+      type: group
+      description: >
+
+      fields:
+      - name: fullsweep_after
+        type: long
+        description: >
+
+      - name: max_heap_size
+        type: long
+        format: bytes
+        description: >
+
+      - name: min_bin_vheap_size
+        type: long
+        foramt: bytes
+        description: >
+
+      - name: min_heap_size
+        type: long
+        format: bytes
+        description: >
+
+      - name: minor_gcs
+        type: long
+        description: >
+
+    - name: host
+      type: ip
+      description: >
+
+    - name: name
+      type: text
+      description: >
+
+    - name: node
+      type: keyword
+      description: >
+
+    - name: peer_cert_issuer
+      type: text
+      description: >
+
+    - name: peer_cert_subject
+      type: text
+      description: >
+
+    - name: peer_cert_validity
+      description: >
+
+    - name: peer_host
+      type: ip
+      description: >
+
+    - name: peer_port
+      type: long
+      description: >
+
+    - name: port
+      type: long
+      description: >
+
+    - name: protocol
+      type: keyword
+      description: >
+
+    - name: recv_cnt
+      type: long
+      description: >
+
+    - name: recv_oct
+      type: long
+      format: bytes
+      description: >
+
+    - name: recv_oct_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: reductions
+      type: long
+      description: >
+
+    - name: reductions_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: send_cnt
+      type: long
+      description: >
+
+    - name: send_oct
+      type: long
+      format: bytes
+      description: >
+
+    - name: send_oct_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: send_pend
+      type: long
+      description: >
+
+    - name: ssl
+      type: boolean
+      description: >
+
+    - name: ssl_cipher
+      type: keyword
+      description: >
+
+    - name: ssl_hash
+      type: keyword
+      description: >
+
+    - name: ssl_key_exchange
+      description: >
+
+    - name: ssl_protocol
+      type: keyword
+      description: >
+
+    - name: state
+      type: keyword
+      description: >
+
+    - name: timeout
+      type: long
+      format: duration
+      description: >
+
+    - name: type
+      type: keyword
+      description: >
+
+    - name: user
+      type: keyword
+      description: >
+
+    - name: vhost
+      type: keyword
+      description: >

@@ -19,7 +19,7 @@ in <<configuration-metricbeat>>. Here is an example configuration:
 ----
 rabbitmqbeat.modules:
 - module: rabbitmq
-  metricsets: ["nodes", "queues","overview"]
+  metricsets: ["nodes", "queues","overview", "connections" ]
   enabled: true
   period: 30s
   hosts: ["http://localhost:15672"]
@@ -32,11 +32,15 @@ rabbitmqbeat.modules:
 
 The following metricsets are available:
 
+* <<metricbeat-metricset-rabbitmq-connections,connections>>
+
 * <<metricbeat-metricset-rabbitmq-nodes,nodes>>
 
 * <<metricbeat-metricset-rabbitmq-overview,overview>>
 
 * <<metricbeat-metricset-rabbitmq-queues,queues>>
+
+include::rabbitmq/connections.asciidoc[]
 
 include::rabbitmq/nodes.asciidoc[]
 

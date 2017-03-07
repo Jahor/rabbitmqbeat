@@ -3,181 +3,281 @@
   description: >
     `overview` contains the metrics that were obtained by the RabbitMQ API's overview call.
   fields:
-    - name: management_version
+    - name: cluster_name
       type: text
       description: >
-        The version of the RabbitMQ management plugin.
-    - name: rates_mode
-      type: keyword
+        The name of the entire cluster, as set with rabbitmqctl set_cluster_name.
+    - name: contexts
+      type: list
       description: >
-        The rates mode.
-    - name: exchange_types
-      type: dict
-      description: >
-        The exchange types.
-    - name: rabbitmq_version
-      type: keyword
-      description: >
-        The RabbitMQ version.
-    - name: cluster_name
-      type: keyword
-      description: >
-        The cluster name.
-    - name: erlang_version
-      type: keyword
-      description: >
-        The Erlang version.
+        List of all HTTP listeners on the node.
     - name: erlang_full_version
       type: text
       description: >
-        A full description of the Erlang version.
+        A string with extended detail about the Erlang VM and how it was compiled, for the node connected to.
+    - name: erlang_version
+      type: date
+      description: >
+        A string with the Erlang version of the node connected to. As clusters should all run the same version this can be taken as representing the cluster.
+    - name: exchange_types
+      type: list
+      description: >
+        Exchange types available on the node.
+    - name: listeners
+      type: list
+      description: >
+        All (non-HTTP) network listeners for all nodes in the cluster. (See contexts in /api/nodes for HTTP).
+    - name: management_version
+      type: date
+      description: >
+        Version of the management plugin in use.
     - name: message_stats
       type: group
       description: >
-        Message stats.
+        A message_stats group for everything the user can see - for all vhosts regardless of permissions in the case of monitoring and administrator users, and for all vhosts the user has access to for other users.
       fields:
-        - name: publish
-          type: long
+      - name: ack
+        type: long
+        description: >
+
+      - name: ack_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-           Published messages.
-        - name: publish_details
-          type: group
+
+      - name: confirm
+        type: long
+        description: >
+          Count of messages confirmed.
+      - name: confirm_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-            Published details.
-          fields:
-            - name: rate
-              type: float
-              description: >
-               The published rate.
-        - name: deliver_get
-          type: long
+
+      - name: deliver
+        type: long
+        description: >
+          Count of messages delivered in acknowledgement mode to consumers.
+      - name: deliver_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-           Deliver get messages.
-        - name: deliver_get_details
-          type: group
+
+      - name: deliver_get
+        type: long
+        description: >
+          Sum of all four of the above.
+      - name: deliver_get_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-            Deliver get details.
-          fields:
-            - name: rate
-              type: float
-              description: >
-               The deliver get rate.
-        - name: deliver_no_ack
-          type: long
+
+      - name: deliver_no_ack
+        type: long
+        description: >
+
+      - name: deliver_no_ack_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-           Deliver no ack messages.
-        - name: deliver_no_ack_details
-          type: group
+
+      - name: get
+        type: long
+        description: >
+          Count of messages delivered in acknowledgement mode in response to basic.get.
+      - name: get_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-            Deliver no ack details.
-          fields:
-            - name: rate
-              type: float
-              description: >
-               The deliver no ack rate.
-    - name: queue_totals
-      type: group
-      description: >
-        Queue totals
-      fields:
-        - name: messages
-          type: long
+
+      - name: get_no_ack
+        type: long
+        description: >
+
+      - name: get_no_ack_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-           Messages total.
-        - name: messages_details
-          type: group
+
+      - name: publish
+        type: long
+        description: >
+          Count of messages published.
+      - name: publish_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-            Messages details.
-          fields:
-            - name: rate
-              type: float
-              description: >
-               The messages rate.
-        - name: messages_ready
-          type: long
+
+      - name: publish_in
+        type: long
+        description: >
+          Count of messages published "in" to an exchange, i.e. not taking account of routing.
+      - name: publish_in_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-           Messages ready total.
-        - name: messages_ready_details
-          type: group
+
+      - name: publish_out
+        type: long
+        description: >
+          Count of messages published "out" of an exchange, i.e. taking account of routing.
+      - name: publish_out_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-            Messages ready details.
-          fields:
-            - name: rate
-              type: float
-              description: >
-               The messages ready rate.
-        - name: messages_unacknowledged
-          type: long
+
+      - name: redeliver
+        type: long
+        description: >
+          Count of subset of messages in deliver_get which had the redelivered flag set.
+      - name: redeliver_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-           Messages unacknowledged total.
-        - name: messages_unacknowledged_details
-          type: group
+
+      - name: return_unroutable
+        type: long
+        description: >
+
+      - name: return_unroutable_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
           description: >
-            Messages unacknowledged details.
-          fields:
-            - name: rate
-              type: float
-              description: >
-               The messages unacknowledged rate.
-    - name: object_totals
-      type: group
-      description: >
-        Object totals
-      fields:
-        - name: consumers
-          type: long
-          description: >
-            Consumer total.
-        - name: queues
-          type: long
-          description: >
-            Queues total.
-        - name: exchanges
-          type: long
-          description: >
-            Exchanges total.
-        - name: connections
-          type: long
-          description: >
-            Connections total.
-        - name: channels
-          type: long
-          description: >
-            Channels total.
-    - name: statistics_db_event_queue
-      type: long
-      description: >
-        The statistics db event queue.
+
     - name: node
       type: keyword
       description: >
-        The node name.
+        The name of the cluster node this management plugin instance is running on.
+    - name: object_totals
+      type: group
+      description: >
+        An group containing global counts of all connections, channels, exchanges, queues and consumers, subject to the same visibility rules as for message_stats.
+      fields:
+      - name: channels
+        type: long
+        description: >
+
+      - name: connections
+        type: long
+        description: >
+
+      - name: consumers
+        type: long
+        description: >
+
+      - name: exchanges
+        type: long
+        description: >
+
+      - name: queues
+        type: long
+        description: >
+
+    - name: queue_totals
+      type: group
+      description: >
+        An group containing sums of the messages, messages_ready and messages_unacknowledged fields for all queues, again subject to the same visibility rules as for message_stats.
+      fields:
+      - name: messages
+        type: long
+        description: >
+
+      - name: messages_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
+          description: >
+
+      - name: messages_ready
+        type: long
+        description: >
+
+      - name: messages_ready_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
+          description: >
+
+      - name: messages_unacknowledged
+        type: long
+        description: >
+
+      - name: messages_unacknowledged_details
+        type: group
+        description: >
+
+        fields:
+        - name: rate
+          type: float
+          description: >
+
+    - name: rabbitmq_version
+      type: date
+      description: >
+        Version of RabbitMQ on the node which processed this request.
+    - name: rates_mode
+      type: keyword
+      description: >
+        'none', 'basic' or 'detailed'.
+    - name: statistics_db_event_queue
+      type: long
+      description: >
+        Number of outstanding statistics events yet to be processed by the database.
     - name: statistics_db_node
       type: keyword
       description: >
-        The statistics db node.
-    - name: listeners
-      type: dict
-      description: >
-        The listeners metrics.
-    - name: contexts
-      type: group
-      description: >
-        The list of contexts
-      fields:
-        - name: node
-          type: keyword
-          description: >
-            The node name.
-        - name: description
-          type: text
-          description: >
-            The description of the node.
-        - name: path
-          type: keyword
-          description: >
-            The node path.
-        - name: port
-          type: keyword
-          description: >
-            The node port.
+        Name of the cluster node hosting the management statistics database.

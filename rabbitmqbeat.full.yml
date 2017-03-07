@@ -12,7 +12,7 @@ rabbitmqbeat.modules:
 
 #------------------------------ RabbitMQ Module ------------------------------
 #- module: rabbitmq
-  #metricsets: ["queues","overview"]
+  #metricsets: ["queues","overview", "overview", "connections"]
   #enabled: true
   #period: 30s
 

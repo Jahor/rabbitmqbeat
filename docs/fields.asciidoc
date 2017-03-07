@@ -190,6 +190,325 @@ RabbitMQ server metricsets collected from the RabbitMQ API.
 
 
 [float]
+== connections Fields
+
+Connection information
+
+
+
+[float]
+=== rabbitmq.connections.auth_mechanism
+
+type: keyword
+
+Client authentication mechanism
+
+
+[float]
+=== rabbitmq.connections.channel_max
+
+type: long
+
+Maximal number of channels
+
+
+[float]
+=== rabbitmq.connections.channels
+
+type: long
+
+Current number of channels
+
+
+[float]
+== client_properties Fields
+
+Client properties
+
+
+[float]
+=== rabbitmq.connections.connected_at
+
+type: date
+
+
+
+[float]
+=== rabbitmq.connections.frame_max
+
+type: long
+
+
+
+[float]
+== garbage_collection Fields
+
+
+
+
+[float]
+=== rabbitmq.connections.garbage_collection.fullsweep_after
+
+type: long
+
+
+
+[float]
+=== rabbitmq.connections.garbage_collection.max_heap_size
+
+type: long
+
+format: bytes
+
+
+
+[float]
+=== rabbitmq.connections.garbage_collection.min_bin_vheap_size
+
+type: long
+
+
+
+[float]
+=== rabbitmq.connections.garbage_collection.min_heap_size
+
+type: long
+
+format: bytes
+
+
+
+[float]
+=== rabbitmq.connections.garbage_collection.minor_gcs
+
+type: long
+
+
+
+[float]
+=== rabbitmq.connections.host
+
+type: ip
+
+
+
+[float]
+=== rabbitmq.connections.name
+
+type: text
+
+
+
+[float]
+=== rabbitmq.connections.node
+
+type: keyword
+
+
+
+[float]
+=== rabbitmq.connections.peer_cert_issuer
+
+type: text
+
+
+
+[float]
+=== rabbitmq.connections.peer_cert_subject
+
+type: text
+
+
+
+[float]
+=== rabbitmq.connections.peer_cert_validity
+
+
+
+[float]
+=== rabbitmq.connections.peer_host
+
+type: ip
+
+
+
+[float]
+=== rabbitmq.connections.peer_port
+
+type: long
+
+
+
+[float]
+=== rabbitmq.connections.port
+
+type: long
+
+
+
+[float]
+=== rabbitmq.connections.protocol
+
+type: keyword
+
+
+
+[float]
+=== rabbitmq.connections.recv_cnt
+
+type: long
+
+
+
+[float]
+=== rabbitmq.connections.recv_oct
+
+type: long
+
+format: bytes
+
+
+
+[float]
+== recv_oct_details Fields
+
+
+
+
+[float]
+=== rabbitmq.connections.recv_oct_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.connections.reductions
+
+type: long
+
+
+
+[float]
+== reductions_details Fields
+
+
+
+
+[float]
+=== rabbitmq.connections.reductions_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.connections.send_cnt
+
+type: long
+
+
+
+[float]
+=== rabbitmq.connections.send_oct
+
+type: long
+
+format: bytes
+
+
+
+[float]
+== send_oct_details Fields
+
+
+
+
+[float]
+=== rabbitmq.connections.send_oct_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.connections.send_pend
+
+type: long
+
+
+
+[float]
+=== rabbitmq.connections.ssl
+
+type: boolean
+
+
+
+[float]
+=== rabbitmq.connections.ssl_cipher
+
+type: keyword
+
+
+
+[float]
+=== rabbitmq.connections.ssl_hash
+
+type: keyword
+
+
+
+[float]
+=== rabbitmq.connections.ssl_key_exchange
+
+
+
+[float]
+=== rabbitmq.connections.ssl_protocol
+
+type: keyword
+
+
+
+[float]
+=== rabbitmq.connections.state
+
+type: keyword
+
+
+
+[float]
+=== rabbitmq.connections.timeout
+
+type: long
+
+format: duration
+
+
+
+[float]
+=== rabbitmq.connections.type
+
+type: keyword
+
+
+
+[float]
+=== rabbitmq.connections.user
+
+type: keyword
+
+
+
+[float]
+=== rabbitmq.connections.vhost
+
+type: keyword
+
+
+
+[float]
 == nodes Fields
 
 `nodes` contains the metrics that were obtained by the RabbitMQ API's node call.
@@ -197,11 +516,71 @@ RabbitMQ server metricsets collected from the RabbitMQ API.
 
 
 [float]
+=== rabbitmq.nodes.applications
+
+type: list
+
+List of all Erlang applications running on the node.
+
+
+[float]
+=== rabbitmq.nodes.auth_mechanisms
+
+type: list
+
+List of all SASL authentication mechanisms installed on the node.
+
+
+[float]
 === rabbitmq.nodes.cluster_links
 
 type: list
 
-The nodes cluster links.
+A list of the other nodes in the cluster. For each node, there are details of the TCP connection used to connect to it and statistics on data that has been transferred.
+
+
+[float]
+=== rabbitmq.nodes.config_files
+
+type: list
+
+List of config files read by the node.
+
+
+[float]
+=== rabbitmq.nodes.context_switches
+
+type: long
+
+
+
+[float]
+== context_switches_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.context_switches_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.contexts
+
+type: list
+
+List of all HTTP listeners on the node.
+
+
+[float]
+=== rabbitmq.nodes.db_dir
+
+type: text
+
+Location of the persistent storage used by the node.
 
 
 [float]
@@ -209,13 +588,22 @@ The nodes cluster links.
 
 type: long
 
-The amount of free disk on the node in bytes.
+format: bytes
+
+Disk free space in bytes.
+
+
+[float]
+=== rabbitmq.nodes.disk_free_alarm
+
+type: boolean
+
+Whether the disk alarm has gone off.
 
 
 [float]
 == disk_free_details Fields
 
-The nodes free disk details.
 
 
 
@@ -224,21 +612,160 @@ The nodes free disk details.
 
 type: float
 
-The nodes free disk consumption rate in bytes.
+
+
+[float]
+=== rabbitmq.nodes.disk_free_limit
+
+type: long
+
+format: bytes
+
+Point at which the disk alarm will go off.
+
+
+[float]
+=== rabbitmq.nodes.enabled_plugins
+
+type: list
+
+List of plugins which are both explicitly enabled and running.
+
+
+[float]
+=== rabbitmq.nodes.exchange_types
+
+type: list
+
+Exchange types available on the node.
+
+
+[float]
+=== rabbitmq.nodes.fd_total
+
+type: long
+
+File descriptors available.
+
+
+[float]
+=== rabbitmq.nodes.fd_used
+
+type: long
+
+Used file descriptors.
+
+
+[float]
+== fd_used_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.fd_used_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.gc_bytes_reclaimed
+
+type: long
+
+format: bytes
+
+
+
+[float]
+== gc_bytes_reclaimed_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.gc_bytes_reclaimed_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.gc_num
+
+type: long
+
+
+
+[float]
+== gc_num_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.gc_num_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.io_file_handle_open_attempt_avg_time
+
+type: float
+
+format: duration
+
+
+
+[float]
+== io_file_handle_open_attempt_avg_time_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.io_file_handle_open_attempt_avg_time_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.io_file_handle_open_attempt_count
+
+type: long
+
+
+
+[float]
+== io_file_handle_open_attempt_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.io_file_handle_open_attempt_count_details.rate
+
+type: float
+
 
 
 [float]
 === rabbitmq.nodes.io_read_avg_time
 
-type: long
+type: float
 
-The nodes average io read time.
+format: duration
+
+Average wall time (milliseconds) for each disk read operation in the last statistics interval.
 
 
 [float]
 == io_read_avg_time_details Fields
 
-The nodes average io time details.
 
 
 
@@ -247,7 +774,6 @@ The nodes average io time details.
 
 type: float
 
-The average time rate at which bytes are read.
 
 
 [float]
@@ -255,13 +781,14 @@ The average time rate at which bytes are read.
 
 type: long
 
-The nodes io bytes read.
+format: bytes
+
+Total number of bytes read from disk by the persister.
 
 
 [float]
 == io_read_bytes_details Fields
 
-The nodes bytes read details.
 
 
 
@@ -270,7 +797,6 @@ The nodes bytes read details.
 
 type: float
 
-The average rate at which bytes are read.
 
 
 [float]
@@ -278,13 +804,12 @@ The average rate at which bytes are read.
 
 type: long
 
-The nodes io read count.
+Total number of read operations by the persister.
 
 
 [float]
 == io_read_count_details Fields
 
-The nodes io read details.
 
 
 
@@ -293,21 +818,86 @@ The nodes io read details.
 
 type: float
 
-The average io read rate.
+
+
+[float]
+=== rabbitmq.nodes.io_reopen_count
+
+type: long
+
+Total number of times the persister has needed to recycle file handles between queues. In an ideal world this number will be zero; if the number is large, performance might be improved by increasing the number of file handles available to RabbitMQ.
+
+
+[float]
+== io_reopen_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.io_reopen_count_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.io_seek_avg_time
+
+type: float
+
+format: duration
+
+Average wall time (milliseconds) for each seek operation in the last statistics interval.
+
+
+[float]
+== io_seek_avg_time_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.io_seek_avg_time_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.io_seek_count
+
+type: long
+
+Total number of seek operations by the persister.
+
+
+[float]
+== io_seek_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.io_seek_count_details.rate
+
+type: float
+
 
 
 [float]
 === rabbitmq.nodes.io_sync_avg_time
 
-type: long
+type: float
 
-The nodes io sync average time.
+format: duration
+
+Average wall time (milliseconds) for each fsync() operation in the last statistics interval.
 
 
 [float]
 == io_sync_avg_time_details Fields
 
-The nodes io sync details.
 
 
 
@@ -316,21 +906,42 @@ The nodes io sync details.
 
 type: float
 
-The nodes average io sync rate.
+
+
+[float]
+=== rabbitmq.nodes.io_sync_count
+
+type: long
+
+Total number of fsync() operations by the persister.
+
+
+[float]
+== io_sync_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.io_sync_count_details.rate
+
+type: float
+
 
 
 [float]
 === rabbitmq.nodes.io_write_avg_time
 
-type: long
+type: float
 
-The nodes io write average time.
+format: duration
+
+Average wall time (milliseconds) for each disk write operation in the last statistics interval.
 
 
 [float]
 == io_write_avg_time_details Fields
 
-The nodes io write details.
 
 
 
@@ -339,7 +950,76 @@ The nodes io write details.
 
 type: float
 
-The nodes average io write rate.
+
+
+[float]
+=== rabbitmq.nodes.io_write_bytes
+
+type: long
+
+format: bytes
+
+Total number of bytes written to disk by the persister.
+
+
+[float]
+== io_write_bytes_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.io_write_bytes_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.io_write_count
+
+type: long
+
+Total number of write operations by the persister.
+
+
+[float]
+== io_write_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.io_write_count_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.log_file
+
+type: text
+
+Location of main log file.
+
+
+[float]
+=== rabbitmq.nodes.mem_alarm
+
+type: boolean
+
+Whether the memory alarm has gone off.
+
+
+[float]
+=== rabbitmq.nodes.mem_limit
+
+type: long
+
+format: bytes
+
+Point at which the memory alarm will go off.
 
 
 [float]
@@ -347,13 +1027,14 @@ The nodes average io write rate.
 
 type: long
 
-The nodes io write average time.
+format: bytes
+
+Memory used in bytes.
 
 
 [float]
 == mem_used_details Fields
 
-The nodes io write details.
 
 
 
@@ -362,7 +1043,6 @@ The nodes io write details.
 
 type: float
 
-The nodes average io write rate.
 
 
 [float]
@@ -370,13 +1050,12 @@ The nodes average io write rate.
 
 type: long
 
-The nodes mnesia transmit count.
+Number of Mnesia transactions which have been performed that required writes to disk. (e.g. creating a durable queue). Only transactions which originated on this node are included.
 
 
 [float]
 == mnesia_disk_tx_count_details Fields
 
-The nodes mnesia transmit details.
 
 
 
@@ -385,7 +1064,6 @@ The nodes mnesia transmit details.
 
 type: float
 
-The nodes mnesia transmit count rate.
 
 
 [float]
@@ -393,13 +1071,12 @@ The nodes mnesia transmit count rate.
 
 type: long
 
-The nodes mnesia ram transmit count.
+Number of Mnesia transactions which have been performed that did not require writes to disk. (e.g. creating a transient queue). Only transactions which originated on this node are included.
 
 
 [float]
 == mnesia_ram_tx_count_details Fields
 
-The nodes mnesia ram transmit details.
 
 
 
@@ -408,7 +1085,88 @@ The nodes mnesia ram transmit details.
 
 type: float
 
-The nodes mnesia ram transmit count rate.
+
+
+[float]
+=== rabbitmq.nodes.msg_store_read_count
+
+type: long
+
+Number of messages which have been read from the message store.
+
+
+[float]
+== msg_store_read_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.msg_store_read_count_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.msg_store_write_count
+
+type: long
+
+Number of messages which have been written to the message store.
+
+
+[float]
+== msg_store_write_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.msg_store_write_count_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.name
+
+type: keyword
+
+Node name.
+
+
+[float]
+=== rabbitmq.nodes.net_ticktime
+
+type: long
+
+Current kernel net_ticktime setting for the node.
+
+
+[float]
+=== rabbitmq.nodes.os_pid
+
+type: keyword
+
+Process identifier for the Operating System under which this node is running.
+
+
+[float]
+=== rabbitmq.nodes.partitions
+
+type: list
+
+List of network partitions this node is seeing.
+
+
+[float]
+=== rabbitmq.nodes.proc_total
+
+type: long
+
+Maximum number of Erlang processes.
 
 
 [float]
@@ -416,13 +1174,12 @@ The nodes mnesia ram transmit count rate.
 
 type: long
 
-The nodes proc used.
+Number of Erlang processes in use.
 
 
 [float]
 == proc_used_details Fields
 
-The nodes proc used details.
 
 
 
@@ -431,7 +1188,117 @@ The nodes proc used details.
 
 type: float
 
-The nodes proc used rate.
+
+
+[float]
+=== rabbitmq.nodes.processors
+
+type: long
+
+Number of cores detected and usable by Erlang.
+
+
+[float]
+=== rabbitmq.nodes.queue_index_journal_write_count
+
+type: long
+
+Number of records written to the queue index journal. Each record represents a message being published to a queue, being delivered from a queue, and being acknowledged in a queue.
+
+
+[float]
+== queue_index_journal_write_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.queue_index_journal_write_count_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.queue_index_read_count
+
+type: long
+
+Number of records read from the queue index.
+
+
+[float]
+== queue_index_read_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.queue_index_read_count_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.queue_index_write_count
+
+type: long
+
+Number of records written to the queue index.
+
+
+[float]
+== queue_index_write_count_details Fields
+
+
+
+
+[float]
+=== rabbitmq.nodes.queue_index_write_count_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.nodes.rates_mode
+
+type: keyword
+
+'none', 'basic' or 'detailed'.
+
+
+[float]
+=== rabbitmq.nodes.run_queue
+
+type: long
+
+Average number of Erlang processes waiting to run.
+
+
+[float]
+=== rabbitmq.nodes.running
+
+type: boolean
+
+Boolean for whether this node is up. Obviously if this is false, most other stats will be missing.
+
+
+[float]
+=== rabbitmq.nodes.sasl_log_file
+
+type: text
+
+Location of sasl log file.
+
+
+[float]
+=== rabbitmq.nodes.sockets_total
+
+type: long
+
+File descriptors available for use as sockets.
 
 
 [float]
@@ -439,13 +1306,12 @@ The nodes proc used rate.
 
 type: long
 
-The nodes sockets used.
+File descriptors used as sockets.
 
 
 [float]
 == sockets_used_details Fields
 
-The nodes sockets used details.
 
 
 
@@ -454,175 +1320,6 @@ The nodes sockets used details.
 
 type: float
 
-The nodes sockets used rate.
-
-
-[float]
-=== rabbitmq.nodes.partitions
-
-type: dict
-
-The nodes partitions.
-
-
-[float]
-=== rabbitmq.nodes.os_pid
-
-type: keyword
-
-The nodes RabbitMQ pid.
-
-
-[float]
-=== rabbitmq.nodes.fd_total
-
-type: long
-
-The nodes total file descriptors.
-
-
-[float]
-=== rabbitmq.nodes.sockets_total
-
-type: long
-
-The nodes total sockets used.
-
-
-[float]
-=== rabbitmq.nodes.mem_limit
-
-type: long
-
-THe nodes memory limit.
-
-
-[float]
-=== rabbitmq.nodes.mem_alarm
-
-type: boolean
-
-The nodes memory limit.
-
-
-[float]
-=== rabbitmq.nodes.disk_free_limit
-
-type: float
-
-The nodes free disk limit.
-
-
-[float]
-=== rabbitmq.nodes.disk_free_alarm
-
-type: boolean
-
-The nodes free disk alarm.
-
-
-[float]
-=== rabbitmq.nodes.proc_total
-
-type: long
-
-The nodes total procs.
-
-
-[float]
-=== rabbitmq.nodes.rates_mode
-
-type: keyword
-
-The nodes rates mode.
-
-
-[float]
-=== rabbitmq.nodes.uptime
-
-type: long
-
-The nodes uptime in seconds.
-
-
-[float]
-=== rabbitmq.nodes.run_queue
-
-type: long
-
-The nodes total number of procs in the run queue.
-
-
-[float]
-=== rabbitmq.nodes.processors
-
-type: long
-
-The nodes total number of processors.
-
-
-[float]
-=== rabbitmq.nodes.exchange_types
-
-type: dict
-
-A list of exchange types configured on the node.
-
-
-[float]
-=== rabbitmq.nodes.auth_mechanisms
-
-type: dict
-
-A list of auth mechanisms configured on the node.
-
-
-[float]
-=== rabbitmq.nodes.applications
-
-type: dict
-
-A list of applications configured on the node.
-
-
-[float]
-=== rabbitmq.nodes.contexts
-
-type: dict
-
-A list of contexts configured on the node.
-
-
-[float]
-=== rabbitmq.nodes.config_files
-
-type: dict
-
-A list of configurations files configured on the node.
-
-
-[float]
-=== rabbitmq.nodes.net_ticktime
-
-type: long
-
-The nodes net tick time.
-
-
-[float]
-=== rabbitmq.nodes.enabled_plugins
-
-type: dict
-
-A list of plugins configured on the node.
-
-
-[float]
-=== rabbitmq.nodes.name
-
-type: keyword
-
-The node name.
 
 
 [float]
@@ -630,15 +1327,17 @@ The node name.
 
 type: keyword
 
-The node type.
+'disc' or 'ram'.
 
 
 [float]
-=== rabbitmq.nodes.running
+=== rabbitmq.nodes.uptime
 
-type: boolean
+type: long
 
-The node running boolean.
+format: duration
+
+Time since the Erlang VM started, in milliseconds.
 
 
 [float]
@@ -649,51 +1348,19 @@ The node running boolean.
 
 
 [float]
-=== rabbitmq.overview.management_version
+=== rabbitmq.overview.cluster_name
 
 type: text
 
-The version of the RabbitMQ management plugin.
+The name of the entire cluster, as set with rabbitmqctl set_cluster_name.
 
 
 [float]
-=== rabbitmq.overview.rates_mode
+=== rabbitmq.overview.contexts
 
-type: keyword
+type: list
 
-The rates mode.
-
-
-[float]
-=== rabbitmq.overview.exchange_types
-
-type: dict
-
-The exchange types.
-
-
-[float]
-=== rabbitmq.overview.rabbitmq_version
-
-type: keyword
-
-The RabbitMQ version.
-
-
-[float]
-=== rabbitmq.overview.cluster_name
-
-type: keyword
-
-The cluster name.
-
-
-[float]
-=== rabbitmq.overview.erlang_version
-
-type: keyword
-
-The Erlang version.
+List of all HTTP listeners on the node.
 
 
 [float]
@@ -701,37 +1368,108 @@ The Erlang version.
 
 type: text
 
-A full description of the Erlang version.
+A string with extended detail about the Erlang VM and how it was compiled, for the node connected to.
+
+
+[float]
+=== rabbitmq.overview.erlang_version
+
+type: date
+
+A string with the Erlang version of the node connected to. As clusters should all run the same version this can be taken as representing the cluster.
+
+
+[float]
+=== rabbitmq.overview.exchange_types
+
+type: list
+
+Exchange types available on the node.
+
+
+[float]
+=== rabbitmq.overview.listeners
+
+type: list
+
+All (non-HTTP) network listeners for all nodes in the cluster. (See contexts in /api/nodes for HTTP).
+
+
+[float]
+=== rabbitmq.overview.management_version
+
+type: date
+
+Version of the management plugin in use.
 
 
 [float]
 == message_stats Fields
 
-Message stats.
+A message_stats group for everything the user can see - for all vhosts regardless of permissions in the case of monitoring and administrator users, and for all vhosts the user has access to for other users.
 
 
 
 [float]
-=== rabbitmq.overview.message_stats.publish
+=== rabbitmq.overview.message_stats.ack
 
 type: long
 
-Published messages.
 
 
 [float]
-== publish_details Fields
+== ack_details Fields
 
-Published details.
 
 
 
 [float]
-=== rabbitmq.overview.message_stats.publish_details.rate
+=== rabbitmq.overview.message_stats.ack_details.rate
 
 type: float
 
-The published rate.
+
+
+[float]
+=== rabbitmq.overview.message_stats.confirm
+
+type: long
+
+Count of messages confirmed.
+
+
+[float]
+== confirm_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.confirm_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.deliver
+
+type: long
+
+Count of messages delivered in acknowledgement mode to consumers.
+
+
+[float]
+== deliver_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.deliver_details.rate
+
+type: float
+
 
 
 [float]
@@ -739,13 +1477,12 @@ The published rate.
 
 type: long
 
-Deliver get messages.
+Sum of all four of the above.
 
 
 [float]
 == deliver_get_details Fields
 
-Deliver get details.
 
 
 
@@ -754,7 +1491,6 @@ Deliver get details.
 
 type: float
 
-The deliver get rate.
 
 
 [float]
@@ -762,13 +1498,11 @@ The deliver get rate.
 
 type: long
 
-Deliver no ack messages.
 
 
 [float]
 == deliver_no_ack_details Fields
 
-Deliver no ack details.
 
 
 
@@ -777,89 +1511,179 @@ Deliver no ack details.
 
 type: float
 
-The deliver no ack rate.
 
 
 [float]
-== queue_totals Fields
-
-Queue totals
-
-
-
-[float]
-=== rabbitmq.overview.queue_totals.messages
+=== rabbitmq.overview.message_stats.get
 
 type: long
 
-Messages total.
+Count of messages delivered in acknowledgement mode in response to basic.get.
 
 
 [float]
-== messages_details Fields
+== get_details Fields
 
-Messages details.
 
 
 
 [float]
-=== rabbitmq.overview.queue_totals.messages_details.rate
+=== rabbitmq.overview.message_stats.get_details.rate
 
 type: float
 
-The messages rate.
 
 
 [float]
-=== rabbitmq.overview.queue_totals.messages_ready
+=== rabbitmq.overview.message_stats.get_no_ack
 
 type: long
 
-Messages ready total.
 
 
 [float]
-== messages_ready_details Fields
+== get_no_ack_details Fields
 
-Messages ready details.
 
 
 
 [float]
-=== rabbitmq.overview.queue_totals.messages_ready_details.rate
+=== rabbitmq.overview.message_stats.get_no_ack_details.rate
 
 type: float
 
-The messages ready rate.
 
 
 [float]
-=== rabbitmq.overview.queue_totals.messages_unacknowledged
+=== rabbitmq.overview.message_stats.publish
 
 type: long
 
-Messages unacknowledged total.
+Count of messages published.
 
 
 [float]
-== messages_unacknowledged_details Fields
+== publish_details Fields
 
-Messages unacknowledged details.
 
 
 
 [float]
-=== rabbitmq.overview.queue_totals.messages_unacknowledged_details.rate
+=== rabbitmq.overview.message_stats.publish_details.rate
 
 type: float
 
-The messages unacknowledged rate.
+
+
+[float]
+=== rabbitmq.overview.message_stats.publish_in
+
+type: long
+
+Count of messages published "in" to an exchange, i.e. not taking account of routing.
+
+
+[float]
+== publish_in_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.publish_in_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.publish_out
+
+type: long
+
+Count of messages published "out" of an exchange, i.e. taking account of routing.
+
+
+[float]
+== publish_out_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.publish_out_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.redeliver
+
+type: long
+
+Count of subset of messages in deliver_get which had the redelivered flag set.
+
+
+[float]
+== redeliver_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.redeliver_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.return_unroutable
+
+type: long
+
+
+
+[float]
+== return_unroutable_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.message_stats.return_unroutable_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.overview.node
+
+type: keyword
+
+The name of the cluster node this management plugin instance is running on.
 
 
 [float]
 == object_totals Fields
 
-Object totals
+An group containing global counts of all connections, channels, exchanges, queues and consumers, subject to the same visibility rules as for message_stats.
+
+
+
+[float]
+=== rabbitmq.overview.object_totals.channels
+
+type: long
+
+
+
+[float]
+=== rabbitmq.overview.object_totals.connections
+
+type: long
 
 
 
@@ -868,15 +1692,6 @@ Object totals
 
 type: long
 
-Consumer total.
-
-
-[float]
-=== rabbitmq.overview.object_totals.queues
-
-type: long
-
-Queues total.
 
 
 [float]
@@ -884,23 +1699,96 @@ Queues total.
 
 type: long
 
-Exchanges total.
 
 
 [float]
-=== rabbitmq.overview.object_totals.connections
+=== rabbitmq.overview.object_totals.queues
 
 type: long
 
-Connections total.
 
 
 [float]
-=== rabbitmq.overview.object_totals.channels
+== queue_totals Fields
+
+An group containing sums of the messages, messages_ready and messages_unacknowledged fields for all queues, again subject to the same visibility rules as for message_stats.
+
+
+
+[float]
+=== rabbitmq.overview.queue_totals.messages
 
 type: long
 
-Channels total.
+
+
+[float]
+== messages_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.queue_totals.messages_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.overview.queue_totals.messages_ready
+
+type: long
+
+
+
+[float]
+== messages_ready_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.queue_totals.messages_ready_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.overview.queue_totals.messages_unacknowledged
+
+type: long
+
+
+
+[float]
+== messages_unacknowledged_details Fields
+
+
+
+
+[float]
+=== rabbitmq.overview.queue_totals.messages_unacknowledged_details.rate
+
+type: float
+
+
+
+[float]
+=== rabbitmq.overview.rabbitmq_version
+
+type: date
+
+Version of RabbitMQ on the node which processed this request.
+
+
+[float]
+=== rabbitmq.overview.rates_mode
+
+type: keyword
+
+'none', 'basic' or 'detailed'.
 
 
 [float]
@@ -908,15 +1796,7 @@ Channels total.
 
 type: long
 
-The statistics db event queue.
-
-
-[float]
-=== rabbitmq.overview.node
-
-type: keyword
-
-The node name.
+Number of outstanding statistics events yet to be processed by the database.
 
 
 [float]
@@ -924,54 +1804,7 @@ The node name.
 
 type: keyword
 
-The statistics db node.
-
-
-[float]
-=== rabbitmq.overview.listeners
-
-type: dict
-
-The listeners metrics.
-
-
-[float]
-== contexts Fields
-
-The list of contexts
-
-
-
-[float]
-=== rabbitmq.overview.contexts.node
-
-type: keyword
-
-The node name.
-
-
-[float]
-=== rabbitmq.overview.contexts.description
-
-type: text
-
-The description of the node.
-
-
-[float]
-=== rabbitmq.overview.contexts.path
-
-type: keyword
-
-The node path.
-
-
-[float]
-=== rabbitmq.overview.contexts.port
-
-type: keyword
-
-The node port.
+Name of the cluster node hosting the management statistics database.
 
 
 [float]

@@ -1,0 +1,10 @@
+{
+  "title": "RabbitMQ - Global counts",
+  "visState": "{\"title\":\"RabbitMQ - Global counts\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.overview.object_totals.connections\",\"customLabel\":\"Connections\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.overview.object_totals.channels\",\"customLabel\":\"Channels\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.overview.object_totals.exchanges\",\"customLabel\":\"Exchanges\"}},{\"id\":\"4\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.overview.object_totals.queues\",\"customLabel\":\"Queues\"}},{\"id\":\"5\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"rabbitmq.overview.object_totals.consumers\",\"customLabel\":\"Consumers\"}}],\"listeners\":{}}",
+  "uiStateJSON": "{}",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "{\"index\":\"rabbitmqbeat-*\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+  }
+}

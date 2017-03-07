@@ -1,0 +1,10 @@
+{
+  "title": "RabbitMQ - Queued messages",
+  "visState": "{\"aggs\":[{\"enabled\":true,\"id\":\"1\",\"params\":{\"customLabel\":\"Ready\",\"field\":\"rabbitmq.overview.queue_totals.messages_ready\"},\"schema\":\"metric\",\"type\":\"max\"},{\"enabled\":true,\"id\":\"2\",\"params\":{\"customInterval\":\"2h\",\"customLabel\":\"\",\"extended_bounds\":{},\"field\":\"@timestamp\",\"interval\":\"auto\",\"min_doc_count\":1},\"schema\":\"segment\",\"type\":\"date_histogram\"},{\"enabled\":true,\"id\":\"3\",\"params\":{\"customLabel\":\"Unacked\",\"field\":\"rabbitmq.overview.queue_totals.messages_unacknowledged\"},\"schema\":\"metric\",\"type\":\"max\"},{\"enabled\":true,\"id\":\"4\",\"params\":{\"customLabel\":\"Total\",\"field\":\"rabbitmq.overview.queue_totals.messages\"},\"schema\":\"metric\",\"type\":\"max\"}],\"listeners\":{},\"params\":{\"addLegend\":true,\"addTimeMarker\":false,\"addTooltip\":true,\"defaultYExtents\":false,\"drawLinesBetweenPoints\":true,\"interpolate\":\"linear\",\"legendPosition\":\"right\",\"radiusRatio\":9,\"scale\":\"linear\",\"setYExtents\":false,\"showCircles\":true,\"times\":[]},\"title\":\"RabbitMQ - Queued messages\",\"type\":\"line\"}",
+  "uiStateJSON": "{}",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "{\"index\":\"rabbitmqbeat-*\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+  }
+}

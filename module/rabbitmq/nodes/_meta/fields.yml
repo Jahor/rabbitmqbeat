@@ -3,242 +3,506 @@
   description: >
     `nodes` contains the metrics that were obtained by the RabbitMQ API's node call.
   fields:
+    - name: applications
+      type: list
+      description: >
+        List of all Erlang applications running on the node.
+    - name: auth_mechanisms
+      type: list
+      description: >
+        List of all SASL authentication mechanisms installed on the node.
     - name: cluster_links
       type: list
       description: >
-        The nodes cluster links.
+        A list of the other nodes in the cluster. For each node, there are details of the TCP connection used to connect to it and statistics on data that has been transferred.
+    - name: config_files
+      type: list
+      description: >
+        List of config files read by the node.
+    - name: context_switches
+      type: long
+      description: >
+
+    - name: context_switches_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: contexts
+      type: list
+      description: >
+        List of all HTTP listeners on the node.
+    - name: db_dir
+      type: text
+      description: >
+        Location of the persistent storage used by the node.
     - name: disk_free
       type: long
+      format: bytes
       description: >
-        The amount of free disk on the node in bytes.
-    - name: disk_free_details
-      type: group
-      description: >
-        The nodes free disk details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The nodes free disk consumption rate in bytes.
-    - name: io_read_avg_time
-      type: long
-      description: >
-        The nodes average io read time.
-    - name: io_read_avg_time_details
-      type: group
-      description: >
-        The nodes average io time details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The average time rate at which bytes are read.
-    - name: io_read_bytes
-      type: long
-      description: >
-        The nodes io bytes read.
-    - name: io_read_bytes_details
-      type: group
-      description: >
-        The nodes bytes read details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The average rate at which bytes are read.
-    - name: io_read_count
-      type: long
-      description: >
-        The nodes io read count.
-    - name: io_read_count_details
-      type: group
-      description: >
-        The nodes io read details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The average io read rate.
-    - name: io_sync_avg_time
-      type: long
-      description: >
-        The nodes io sync average time.
-    - name: io_sync_avg_time_details
-      type: group
-      description: >
-        The nodes io sync details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The nodes average io sync rate.
-    - name: io_write_avg_time
-      type: long
-      description: >
-        The nodes io write average time.
-    - name: io_write_avg_time_details
-      type: group
-      description: >
-        The nodes io write details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The nodes average io write rate.
-    - name: mem_used
-      type: long
-      description: >
-        The nodes io write average time.
-    - name: mem_used_details
-      type: group
-      description: >
-        The nodes io write details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The nodes average io write rate.
-    - name: mnesia_disk_tx_count
-      type: long
-      description: >
-        The nodes mnesia transmit count.
-    - name: mnesia_disk_tx_count_details
-      type: group
-      description: >
-        The nodes mnesia transmit details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The nodes mnesia transmit count rate.
-    - name: mnesia_ram_tx_count
-      type: long
-      description: >
-        The nodes mnesia ram transmit count.
-    - name: mnesia_ram_tx_count_details
-      type: group
-      description: >
-        The nodes mnesia ram transmit details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The nodes mnesia ram transmit count rate.
-    - name: proc_used
-      type: long
-      description: >
-        The nodes proc used.
-    - name: proc_used_details
-      type: group
-      description: >
-        The nodes proc used details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The nodes proc used rate.
-    - name: sockets_used
-      type: long
-      description: >
-        The nodes sockets used.
-    - name: sockets_used_details
-      type: group
-      description: >
-        The nodes sockets used details.
-      fields:
-        - name: rate
-          type: float
-          description: >
-            The nodes sockets used rate.
-    - name: partitions
-      type: dict
-      description: >
-        The nodes partitions.
-    - name: os_pid
-      type: keyword
-      description: >
-        The nodes RabbitMQ pid.
-    - name: fd_total
-      type: long
-      description: >
-        The nodes total file descriptors.
-    - name: sockets_total
-      type: long
-      description: >
-        The nodes total sockets used.
-    - name: mem_limit
-      type: long
-      description: >
-        THe nodes memory limit.
-    - name: mem_alarm
-      type: boolean
-      description: >
-        The nodes memory limit.
-    - name: disk_free_limit
-      type: float
-      description: >
-        The nodes free disk limit.
+        Disk free space in bytes.
     - name: disk_free_alarm
       type: boolean
       description: >
-        The nodes free disk alarm.
-    - name: proc_total
+        Whether the disk alarm has gone off.
+    - name: disk_free_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: disk_free_limit
       type: long
+      format: bytes
       description: >
-        The nodes total procs.
-    - name: rates_mode
-      type: keyword
-      description: >
-        The nodes rates mode.
-    - name: uptime
-      type: long
-      description: >
-        The nodes uptime in seconds.
-    - name: run_queue
-      type: long
-      description: >
-        The nodes total number of procs in the run queue.
-    - name: processors
-      type: long
-      description: >
-        The nodes total number of processors.
-    - name: exchange_types
-      type: dict
-      description: >
-        A list of exchange types configured on the node.
-    - name: auth_mechanisms
-      type: dict
-      description: >
-        A list of auth mechanisms configured on the node.
-    - name: applications
-      type: dict
-      description: >
-        A list of applications configured on the node.
-    - name: contexts
-      type: dict
-      description: >
-        A list of contexts configured on the node.
-    - name: config_files
-      type: dict
-      description: >
-        A list of configurations files configured on the node.
-    - name: net_ticktime
-      type: long
-      description: >
-        The nodes net tick time.
+        Point at which the disk alarm will go off.
     - name: enabled_plugins
-      type: dict
+      type: list
       description: >
-        A list of plugins configured on the node.
+        List of plugins which are both explicitly enabled and running.
+    - name: exchange_types
+      type: list
+      description: >
+        Exchange types available on the node.
+    - name: fd_total
+      type: long
+      description: >
+        File descriptors available.
+    - name: fd_used
+      type: long
+      description: >
+        Used file descriptors.
+    - name: fd_used_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: gc_bytes_reclaimed
+      type: long
+      format: bytes
+      description: >
+
+    - name: gc_bytes_reclaimed_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: gc_num
+      type: long
+      description: >
+
+    - name: gc_num_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_file_handle_open_attempt_avg_time
+      type: float
+      format: duration
+      format_parameters:
+        inputFormat: milliseconds
+        outputFormat: humanize
+      description: >
+
+    - name: io_file_handle_open_attempt_avg_time_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_file_handle_open_attempt_count
+      type: long
+      description: >
+
+    - name: io_file_handle_open_attempt_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_read_avg_time
+      type: float
+      format: duration
+      format_parameters:
+        inputFormat: milliseconds
+        outputFormat: humanize
+      description: >
+        Average wall time (milliseconds) for each disk read operation in the last statistics interval.
+    - name: io_read_avg_time_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_read_bytes
+      type: long
+      format: bytes
+      description: >
+        Total number of bytes read from disk by the persister.
+    - name: io_read_bytes_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_read_count
+      type: long
+      description: >
+        Total number of read operations by the persister.
+    - name: io_read_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_reopen_count
+      type: long
+      description: >
+        Total number of times the persister has needed to recycle file handles between queues. In an ideal world this number will be zero; if the number is large, performance might be improved by increasing the number of file handles available to RabbitMQ.
+    - name: io_reopen_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_seek_avg_time
+      type: float
+      format: duration
+      format_parameters:
+        inputFormat: milliseconds
+        outputFormat: humanize
+      description: >
+        Average wall time (milliseconds) for each seek operation in the last statistics interval.
+    - name: io_seek_avg_time_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_seek_count
+      type: long
+      description: >
+        Total number of seek operations by the persister.
+    - name: io_seek_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_sync_avg_time
+      type: float
+      format: duration
+      format_parameters:
+        inputFormat: milliseconds
+        outputFormat: humanize
+      description: >
+        Average wall time (milliseconds) for each fsync() operation in the last statistics interval.
+    - name: io_sync_avg_time_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_sync_count
+      type: long
+      description: >
+        Total number of fsync() operations by the persister.
+    - name: io_sync_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_write_avg_time
+      type: float
+      format: duration
+      format_parameters:
+        inputFormat: milliseconds
+        outputFormat: humanize
+      description: >
+        Average wall time (milliseconds) for each disk write operation in the last statistics interval.
+    - name: io_write_avg_time_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_write_bytes
+      type: long
+      format: bytes
+      description: >
+        Total number of bytes written to disk by the persister.
+    - name: io_write_bytes_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: io_write_count
+      type: long
+      description: >
+        Total number of write operations by the persister.
+    - name: io_write_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: log_file
+      type: text
+      description: >
+        Location of main log file.
+    - name: mem_alarm
+      type: boolean
+      description: >
+        Whether the memory alarm has gone off.
+    - name: mem_limit
+      type: long
+      format: bytes
+      description: >
+        Point at which the memory alarm will go off.
+    - name: mem_used
+      type: long
+      format: bytes
+      description: >
+        Memory used in bytes.
+    - name: mem_used_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: mnesia_disk_tx_count
+      type: long
+      description: >
+        Number of Mnesia transactions which have been performed that required writes to disk. (e.g. creating a durable queue). Only transactions which originated on this node are included.
+    - name: mnesia_disk_tx_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: mnesia_ram_tx_count
+      type: long
+      description: >
+        Number of Mnesia transactions which have been performed that did not require writes to disk. (e.g. creating a transient queue). Only transactions which originated on this node are included.
+    - name: mnesia_ram_tx_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: msg_store_read_count
+      type: long
+      description: >
+        Number of messages which have been read from the message store.
+    - name: msg_store_read_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: msg_store_write_count
+      type: long
+      description: >
+        Number of messages which have been written to the message store.
+    - name: msg_store_write_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
     - name: name
       type: keyword
       description: >
-        The node name.
-    - name: type
+        Node name.
+    - name: net_ticktime
+      type: long
+      description: >
+        Current kernel net_ticktime setting for the node.
+    - name: os_pid
       type: keyword
       description: >
-        The node type.
+        Process identifier for the Operating System under which this node is running.
+    - name: partitions
+      type: list
+      description: >
+        List of network partitions this node is seeing.
+    - name: proc_total
+      type: long
+      description: >
+        Maximum number of Erlang processes.
+    - name: proc_used
+      type: long
+      description: >
+        Number of Erlang processes in use.
+    - name: proc_used_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: processors
+      type: long
+      description: >
+        Number of cores detected and usable by Erlang.
+    - name: queue_index_journal_write_count
+      type: long
+      description: >
+        Number of records written to the queue index journal. Each record represents a message being published to a queue, being delivered from a queue, and being acknowledged in a queue.
+    - name: queue_index_journal_write_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: queue_index_read_count
+      type: long
+      description: >
+        Number of records read from the queue index.
+    - name: queue_index_read_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: queue_index_write_count
+      type: long
+      description: >
+        Number of records written to the queue index.
+    - name: queue_index_write_count_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: rates_mode
+      type: keyword
+      description: >
+        'none', 'basic' or 'detailed'.
+    - name: run_queue
+      type: long
+      description: >
+        Average number of Erlang processes waiting to run.
     - name: running
       type: boolean
       description: >
-        The node running boolean.
+        Boolean for whether this node is up. Obviously if this is false, most other stats will be missing.
+    - name: sasl_log_file
+      type: text
+      description: >
+        Location of sasl log file.
+    - name: sockets_total
+      type: long
+      description: >
+        File descriptors available for use as sockets.
+    - name: sockets_used
+      type: long
+      description: >
+        File descriptors used as sockets.
+    - name: sockets_used_details
+      type: group
+      description: >
+
+      fields:
+      - name: rate
+        type: float
+        description: >
+
+    - name: type
+      type: keyword
+      description: >
+        'disc' or 'ram'.
+    - name: uptime
+      type: long
+      format: duration
+      format_parameters:
+        inputFormat: milliseconds
+        outputFormat: humanize
+      description: >
+        Time since the Erlang VM started, in milliseconds.

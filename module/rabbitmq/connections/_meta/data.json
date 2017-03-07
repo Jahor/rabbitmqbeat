@@ -1,0 +1,67 @@
+{
+  "@timestamp": "2016-05-23T08:05:34.853Z",
+  "beat": {
+    "hostname": "beathost",
+    "name": "beathost"
+  },
+  "metricset": {
+    "host": "localhost",
+    "module": "mysql",
+    "name": "status",
+    "rtt": 44269
+  },
+  "rabbitmq": {
+    "connections": {
+      "auth_mechanism": "PLAIN",
+      "channel_max": 0,
+      "channels": 1,
+      "client_properties": {
+      },
+      "connected_at": 1488757458998,
+      "frame_max": 131072,
+      "garbage_collection": {
+        "fullsweep_after": 65535,
+        "max_heap_size": 0,
+        "min_bin_vheap_size": 46422,
+        "min_heap_size": 233,
+        "minor_gcs": 2
+      },
+      "host": "127.0.0.1",
+      "name": "127.0.0.1:58425 -> 127.0.0.1:5672",
+      "node": "rabbit@localhost",
+      "peer_cert_issuer": null,
+      "peer_cert_subject": null,
+      "peer_cert_validity": null,
+      "peer_host": "127.0.0.1",
+      "peer_port": 58425,
+      "port": 5672,
+      "protocol": "AMQP 0-9-1",
+      "recv_cnt": 9007,
+      "recv_oct": 73300,
+      "recv_oct_details": {
+        "rate": 1.6
+      },
+      "reductions": 8936630,
+      "reductions_details": {
+        "rate": 104.2
+      },
+      "send_cnt": 9006,
+      "send_oct": 72765,
+      "send_oct_details": {
+        "rate": 1.6
+      },
+      "send_pend": 0,
+      "ssl": false,
+      "ssl_cipher": null,
+      "ssl_hash": null,
+      "ssl_key_exchange": null,
+      "ssl_protocol": null,
+      "state": "running",
+      "timeout": 10,
+      "type": "network",
+      "user": "guest",
+      "vhost": "/"
+    }
+  },
+  "type": "metricsets"
+}
