@@ -606,10 +606,12 @@
                   "type": "text"
                 },
                 "erlang_version": {
-                  "type": "date"
+                  "ignore_above": 1024,
+                  "type": "keyword"
                 },
                 "management_version": {
-                  "type": "date"
+                  "ignore_above": 1024,
+                  "type": "keyword"
                 },
                 "message_stats": {
                   "properties": {
@@ -793,7 +795,8 @@
                   }
                 },
                 "rabbitmq_version": {
-                  "type": "date"
+                  "ignore_above": 1024,
+                  "type": "keyword"
                 },
                 "rates_mode": {
                   "ignore_above": 1024,

@@ -1374,7 +1374,7 @@ A string with extended detail about the Erlang VM and how it was compiled, for t
 [float]
 === rabbitmq.overview.erlang_version
 
-type: date
+type: keyword
 
 A string with the Erlang version of the node connected to. As clusters should all run the same version this can be taken as representing the cluster.
 
@@ -1398,7 +1398,7 @@ All (non-HTTP) network listeners for all nodes in the cluster. (See contexts in 
 [float]
 === rabbitmq.overview.management_version
 
-type: date
+type: keyword
 
 Version of the management plugin in use.
 
@@ -1778,7 +1778,7 @@ type: float
 [float]
 === rabbitmq.overview.rabbitmq_version
 
-type: date
+type: keyword
 
 Version of RabbitMQ on the node which processed this request.
 

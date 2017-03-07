@@ -666,10 +666,14 @@
                   "type": "string"
                 },
                 "erlang_version": {
-                  "type": "date"
+                  "ignore_above": 1024,
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "management_version": {
-                  "type": "date"
+                  "ignore_above": 1024,
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "message_stats": {
                   "properties": {
@@ -854,7 +858,9 @@
                   }
                 },
                 "rabbitmq_version": {
-                  "type": "date"
+                  "ignore_above": 1024,
+                  "index": "not_analyzed",
+                  "type": "string"
                 },
                 "rates_mode": {
                   "ignore_above": 1024,

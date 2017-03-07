@@ -760,7 +760,7 @@
               description: >
                 A string with extended detail about the Erlang VM and how it was compiled, for the node connected to.
             - name: erlang_version
-              type: date
+              type: keyword
               description: >
                 A string with the Erlang version of the node connected to. As clusters should all run the same version this can be taken as representing the cluster.
             - name: exchange_types
@@ -772,7 +772,7 @@
               description: >
                 All (non-HTTP) network listeners for all nodes in the cluster. (See contexts in /api/nodes for HTTP).
             - name: management_version
-              type: date
+              type: keyword
               description: >
                 Version of the management plugin in use.
             - name: message_stats
@@ -1010,7 +1010,7 @@
                   description: >
 
             - name: rabbitmq_version
-              type: date
+              type: keyword
               description: >
                 Version of RabbitMQ on the node which processed this request.
             - name: rates_mode
