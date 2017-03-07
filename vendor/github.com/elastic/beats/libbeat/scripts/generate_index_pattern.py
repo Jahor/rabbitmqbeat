@@ -71,6 +71,10 @@ def field_to_json(desc, path, output):
         output["fieldFormatMap"][path] = {
             "id": desc["format"],
         }
+    if "format_parameters" in desc:
+        output["fieldFormatMap"][path].update({
+            "params": desc["format_parameters"],
+        })
 
 
 def fields_to_index_pattern(args, input):
