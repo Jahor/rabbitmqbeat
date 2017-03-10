@@ -35,21 +35,11 @@ type MetricSet struct {
 // configuration entries if needed.
 func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 
-	// Unpack additional configuration options.
-	config := struct {
-		Hosts    []string `config:"hosts" validate:"nonzero,required"`
-		Username string   `config:"username"`
-		Password string   `config:"password"`
-	}{
-		Username: "",
-		Password: "",
-	}
+	client, err := rabbitmq.CreateClient(base)
 
-	if err := base.Module().UnpackConfig(&config); err != nil {
+	if err != nil {
 		return nil, err
 	}
-
-	client := rabbitmq.NewClient(base.Host(), config.Username, config.Password)
 
 	return &MetricSet{
 		BaseMetricSet: base,

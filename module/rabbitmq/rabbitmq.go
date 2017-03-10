@@ -4,8 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/elastic/beats/libbeat/common"
+	"github.com/elastic/beats/libbeat/logp"
+	"github.com/elastic/beats/libbeat/outputs"
 	"io/ioutil"
+	"net"
 	"net/http"
+	"strings"
+	"time"
 )
 
 type Client struct {
@@ -26,16 +31,49 @@ type Api interface {
 	Connections() ([]common.MapStr, error)
 }
 
-func NewClient(url, username, password string) Api {
+func NewClient(host, username, password string, tls *outputs.TLSConfig) (Api, error) {
+	var transport http.RoundTripper
+	var url string
+	host = strings.TrimPrefix(strings.TrimPrefix(host, "http://"), "https://")
+	if tls != nil && tls.IsEnabled() {
+		cfg, err := outputs.LoadTLSConfig(tls)
+
+		if err != nil {
+			logp.Err("Can not load SSL config", err)
+			return nil, err
+		}
+
+		ssl := cfg.BuildModuleConfig(strings.Split(host, ":")[0])
+
+		transport = &http.Transport{
+			Proxy: http.ProxyFromEnvironment,
+			DialContext: (&net.Dialer{
+				Timeout:   30 * time.Second,
+				KeepAlive: 30 * time.Second,
+			}).DialContext,
+			MaxIdleConns:          100,
+			IdleConnTimeout:       90 * time.Second,
+			TLSHandshakeTimeout:   10 * time.Second,
+			ExpectContinueTimeout: 1 * time.Second,
+			TLSClientConfig:       ssl,
+		}
+		url = "https://" + host
+	} else {
+		url = "http://" + host
+		transport = http.DefaultTransport
+	}
+
 	c := Client{
 		baseUrl: url,
-		http:    http.DefaultClient,
+		http: &http.Client{
+			Transport: transport,
+		},
 		auth: &auth{
 			username: username,
 			password: password,
 		},
 	}
-	return Api(&c)
+	return Api(&c), nil
 }
 
 func (c *Client) Nodes() ([]common.MapStr, error) {

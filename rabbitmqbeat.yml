@@ -15,7 +15,7 @@ rabbitmqbeat.modules:
   metricsets: ["nodes", "queues","overview", "connections" ]
   enabled: true
   period: 30s
-  hosts: ["http://localhost:15672"]
+  hosts: ["localhost:15672"]
   username: guest
   password: guest
 
